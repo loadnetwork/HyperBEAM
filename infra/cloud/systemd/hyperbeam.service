@@ -1,0 +1,24 @@
+[Unit]
+Description=HyperBEAM AO Core Node
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hyperbeam
+Group=hyperbeam
+WorkingDirectory=/opt/hyperbeam
+Environment=HB_CONFIG=/etc/hyperbeam/config.json
+Environment=HB_KEY=/etc/hyperbeam/hyperbeam-wallet.json
+Environment=HB_PORT=10000
+Environment=HB_PRINT=error,http_error
+Environment=ERL_MAX_ETS_TABLES=2097152
+LimitNOFILE=1048576
+ExecStart=/opt/hyperbeam/bin/hb foreground
+ExecStop=/opt/hyperbeam/bin/hb stop
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=60
+
+[Install]
+WantedBy=multi-user.target
